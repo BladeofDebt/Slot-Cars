@@ -5,6 +5,8 @@
 class TileLayer
 {
 private:
+	friend class Map;
+
 	int m_width;
 	int m_depth;
 
@@ -12,7 +14,6 @@ private:
 protected:
 
 public:
-	TileLayer();
 	~TileLayer();
 
 	int GetWidth();

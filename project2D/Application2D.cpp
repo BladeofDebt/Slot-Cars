@@ -30,6 +30,8 @@ bool Application2D::startup() {
 
 	m_level->Start();
 
+
+
 	return true;
 }
 

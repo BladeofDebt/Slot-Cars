@@ -1,14 +1,17 @@
 #pragma once
 
-class Renderer2D;
+#include "../bootstrap/Renderer2D.h"
+class Map;
 
 class Level
 {
+	Map* mp_map;
+
 public:
 	Level();
 	~Level();
 
 	void Start();
 	void Update(float a_deltatime);
-	void Draw(Renderer2D* _renderer);
+	void Draw(aie::Renderer2D* _renderer);
 };
