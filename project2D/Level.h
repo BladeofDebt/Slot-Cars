@@ -1,6 +1,7 @@
 #pragma once
-
-class Renderer2D;
+#include <Renderer2D.h>
+class aie::Renderer2D;
+class Map;
 
 class Level
 {
@@ -8,7 +9,9 @@ public:
 	Level();
 	~Level();
 
-	void Start();
 	void Update(float a_deltatime);
-	void Draw(Renderer2D* _renderer);
+	void Draw(aie::Renderer2D* _renderer);
+
+	Map* m_map;
+
 };

@@ -6,7 +6,7 @@
 #include "Level.h"
 
 Application2D::Application2D() {
-	m_level = new Level();
+	
 }
 
 Application2D::~Application2D() {
@@ -24,11 +24,12 @@ bool Application2D::startup() {
 
 	m_audio = new aie::Audio("./audio/powerup.wav");
 
+	m_level = new Level();
+
 	m_cameraX = 0;
 	m_cameraY = 0;
 	m_timer = 0;
 
-	m_level->Start();
 
 	return true;
 }
@@ -39,8 +40,7 @@ void Application2D::shutdown() {
 	delete m_font;
 	delete m_texture;
 	delete m_shipTexture;
-	delete m_2dRenderer;
-	
+	delete m_2dRenderer;	
 	delete m_level;
 }
 
@@ -86,7 +86,7 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	//TODO: Add Level Draw Here.
+	m_level->Draw(m_2dRenderer);
 
 	// done drawing sprites
 	m_2dRenderer->end();
