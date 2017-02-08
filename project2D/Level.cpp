@@ -1,14 +1,22 @@
 #include "Level.h"
+
 #include "Map.h"
 
 Level::Level()
 {
-	m_map = new Map();
+	mp_map = new Map("Tilemap.tmx");
 }
 
 Level::~Level()
 {
-	delete m_map;
+	if (mp_map)
+	{
+		delete mp_map;
+	}
+}
+
+void Level::Start()
+{
 }
 
 void Level::Update(float a_deltatime)
