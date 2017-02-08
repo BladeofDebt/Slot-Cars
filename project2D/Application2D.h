@@ -4,6 +4,7 @@
 #include "Renderer2D.h"
 #include "Audio.h"
 
+class Level;
 class Application2D : public aie::Application {
 public:
 
@@ -26,4 +27,7 @@ protected:
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
+
+	Level* m_level;
+private:
 };
