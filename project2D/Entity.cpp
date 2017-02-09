@@ -47,6 +47,7 @@ void Entity::UpdateMovement(float _deltaTime)
 void Entity::UpdateProgress(float _deltaTime)
 {
 	m_progress += _deltaTime * m_speed;
+
 	while (m_progress > 1)
 	{
 		m_progress -= 1;
@@ -141,18 +142,6 @@ int Entity::GetTileColID(int _x, int _y) const
 	return m_level->m_map->GetTile(0, _x, _y).GetTileID();
 }
 
-int Entity::GetTileColIDByDir(const int & _dir) const
-{
-	int dir = DirWrap(_dir);
-
-	int dirX, dirY;
-	DirToXYOffset(dir, dirX, dirY);
-
-	int frontX = m_x + dirX;
-	int frontY = m_y + dirY;
-	return GetTileColID(frontX, frontY);
-}
-
 bool Entity::TryMoveInDir(const int & _dir)
 {
 	int tryDir = DirWrap(_dir);
@@ -179,12 +168,12 @@ int Entity::GetTurnedDir() const
 	switch (m_turn)
 	{
 	case -1:
-		newDir -= 90;
+		newDir += 90;
 		break;
 	case 0:
 		break;
 	case 1:
-		newDir += 90;
+		newDir -= 90;
 		break;
 	default:
 		break;

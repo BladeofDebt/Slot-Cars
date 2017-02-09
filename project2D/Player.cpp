@@ -36,6 +36,11 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 		break;
 	}
 	m_texture = TextureManager::GetSingleton()->Get("car.png");
+	m_lowSpeed = 0.75f;
+	m_defaultSpeed = 1.5f;
+	m_highSpeed = 3.0f;
+	m_speedCooldown = 0;
+	m_speedCooldownMax = 1;
 	m_x = 3;
 	m_y = 3;
 }
@@ -49,7 +54,7 @@ void Player::Update(float a_deltatime)
 	if (!m_active) { return; }
 
 	Entity::UpdateMovement(a_deltatime);
-	HandleInput();
+	HandleInput(a_deltatime);
 }
 
 void Player::OnCollision(Entity * a_entity)
@@ -66,24 +71,43 @@ void Player::OnCollision(Entity * a_entity)
 }
 
 
-void Player::HandleInput()
+void Player::HandleInput(float a_deltatime)
 {
-	if (aie::Input::getInstance()->isKeyDown(m_inputSet.accelerate))
+	//Speed Control
+	if (m_speedCooldown > 0)
+		m_speedCooldown -= a_deltatime;
+	if (m_speedCooldown <= 0)
 	{
+		aie::Input* _input = aie::Input::getInstance();
+		bool sUp = _input->isKeyDown(m_inputSet.accelerate);
+		bool sDown = _input->isKeyDown(m_inputSet.deccelerate);
 
+		if (sUp)
+		{
+			m_speed = m_highSpeed;
+			m_speedCooldown = m_speedCooldownMax;
+		}
+		else if (sDown)
+		{
+			m_speed = m_lowSpeed;
+			m_speedCooldown = m_speedCooldownMax;
+		}
+		else
+		{
+			m_speed = m_defaultSpeed;
+		}
 	}
-	if (aie::Input::getInstance()->isKeyDown(m_inputSet.deccelerate))
-	{
 
-	}
+	//Turn Control
 	if (aie::Input::getInstance()->isKeyDown(m_inputSet.left))
 	{
-
+		m_turn = -1;
 	}
-	if (aie::Input::getInstance()->isKeyDown(m_inputSet.right))
+	else if (aie::Input::getInstance()->isKeyDown(m_inputSet.right))
 	{
-
+		m_turn = 1;
 	}
+
 	if (aie::Input::getInstance()->isKeyDown(m_inputSet.fire))
 	{
 		Fire();

@@ -16,10 +16,13 @@ public:
 	
 	void Update(float a_deltatime) override;
 	void OnCollision(Entity* a_entity) override;
-	void HandleInput();
+	void HandleInput(float a_deltatime);
 	void Fire();
 
 	InputSet m_inputSet;
+	float m_lowSpeed, m_defaultSpeed, m_highSpeed;
+	float m_speedCooldown;
+	float m_speedCooldownMax;
 protected:
 	const static InputSet PLAYER1_INPUTSET;
 	const static InputSet PLAYER2_INPUTSET;
