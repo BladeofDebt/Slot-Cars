@@ -225,16 +225,23 @@ void Map::Draw(aie::Renderer2D& a_render) const
 					float tileWidth = mp_tileSheet[tileSheetIndex].m_tileWidth;
 					float tileHeight = mp_tileSheet[tileSheetIndex].m_tileHeight;
 
-					float u = (xPos * tileWidth) / tileSheetWidth;
+					/*float u = (xPos * tileWidth) / tileSheetWidth;
 					float v = (yPos * tileHeight) / tileSheetHeight;
 					float w = ((xPos + 1) * tileWidth) / tileSheetWidth;
-					float h = ((yPos + 1) * tileHeight) / tileSheetHeight;
+					float h = ((yPos + 1) * tileHeight) / tileSheetHeight;*/
+
+					float u = xPos * (tileWidth / tileSheetWidth);
+					float v = yPos * (tileHeight / tileSheetHeight);
+					//float w = (xPos + 1) * (tileWidth / tileSheetWidth);
+					//float h = (yPos + 1) * (tileHeight / tileSheetHeight);
+					float w = tileWidth / tileSheetWidth;
+					float h = tileHeight / tileSheetHeight;
 
 					a_render.setUVRect(u, v, w, h);
-					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + m_tileWidth, y * m_tileHeight + (m_tileHeight / 2.0f));
-					a_render.setUVRect(0, 0, 1, 1);
+					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + (m_tileWidth / 2.0f), (m_depth - y) * m_tileHeight - (m_tileHeight / 2.0f), m_tileWidth, m_tileHeight);
 				}
 			}
 		}
 	}
+	a_render.setUVRect(0, 0, 1, 1);
 }

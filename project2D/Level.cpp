@@ -14,7 +14,7 @@
 
 Level::Level()
 {
-	m_map = new Map("test.tmx");
+	m_map = new Map("Ze Mountains.tmx");
 
 	TextureManager* tm = TextureManager::GetSingleton();
 	std::string name;
