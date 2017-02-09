@@ -10,7 +10,7 @@ struct InputSet
 class Player : public Entity
 {
 public:
-	Player(Map* _map, EntityTeam _team, InputSet _inputSet);
+	Player(Map* _map, EntityTeam _team);
 	~Player();
 	
 	void Update(float a_deltatime) override;
@@ -18,4 +18,7 @@ public:
 	void Fire();
 
 	InputSet m_inputSet;
+protected:
+	const static InputSet PLAYER1_INPUTSET;
+	const static InputSet PLAYER2_INPUTSET;
 };

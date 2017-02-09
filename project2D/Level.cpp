@@ -17,11 +17,10 @@ Level::Level()
 	m_map = new Map("test.tmx");
 
 	TextureManager* tm = TextureManager::GetSingleton();
-	std::string name;
-	tm->LoadTexture("./textures/ship.png", name);
+	tm->LoadTexture("./textures/car.png");
+	tm->LoadTexture("./textures/bullet.png");
 
-	Player* player1 = new Player(m_map, EntityTeam::Player1,
-		InputSet{ aie::EInputCodes::INPUT_KEY_W, aie::EInputCodes::INPUT_KEY_A , aie::EInputCodes::INPUT_KEY_S , aie::EInputCodes::INPUT_KEY_D , aie::EInputCodes::INPUT_KEY_E });
+	Player* player1 = new Player(m_map, EntityTeam::Player1);
 	m_entities.push_back(player1);
 }
 
@@ -40,13 +39,14 @@ void Level::Start()
 
 void Level::Update(float a_deltatime)
 {
-	for each(Entity* entity in m_entities)
-	{
-		entity->Update(a_deltatime);
-	}
+	for (auto i = m_entities.begin(); i != m_entities.end(); i++)
+		(*i)->Update(a_deltatime);
 }
 
 void Level::Draw(aie::Renderer2D * _renderer)
 {
 	m_map->Draw(*_renderer);
+
+	for (auto i = m_entities.begin(); i != m_entities.end(); i++)
+		(*i)->Draw(_renderer);
 }

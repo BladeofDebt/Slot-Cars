@@ -37,7 +37,7 @@ public:
 	float GetTileWidth() const;
 	float GetTileHeight() const;
 	int GetLayerCount() const;
-	void TileToWorld(const int a_tileX, const int a_tileY, float& a_outWorldX, float& a_outWorldY) const;
+	void TileToWorld(const float a_tileX, const float a_tileY, float& a_outWorldX, float& a_outWorldY) const;
 
 	void Draw(aie::Renderer2D& a_render) const;
 };

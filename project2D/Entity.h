@@ -32,17 +32,23 @@ public:
 	virtual void Update(float a_deltatime) = 0;
 
 	void UpdateProgress(float _deltaTime);
-	void PredictMovement(int _outX, int _outY);
-	void MoveTo(int _x, int _y);
+	void CalcMovement();
 	void CheckCollision();
+	void DirToXYOffset(const int& _dir, int& _outX, int& _outY);
 
 	Map* m_map;
 	aie::Texture* m_texture;
 	EntityID m_id;
 	EntityTeam m_team;
 	int m_x, m_y;
-	int m_dirX, m_dirY;
+	int m_dir;
 	int m_turn; // -1=left, 0=forwards, 1=right
 	float m_speed; //
 	float m_progress; // += deltaT*speed each update, to next tile jump
+	unsigned int m_color;
+	const static unsigned int m_defaultColor;
+	bool m_active;
+
+protected:
+	unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
 };

@@ -6,12 +6,21 @@
 #endif
 
 #include "Bullet.h"
+#include "TextureManager.h"
 
 Bullet::Bullet(Map* _map, EntityTeam _team)
 	: Entity(_map, EntityID::Bullet, _team)
 {
+
+	m_texture = TextureManager::GetSingleton()->Get("bullet.png");
 }
 
 Bullet::~Bullet()
 {
+}
+
+void Bullet::Update(float a_deltatime)
+{
+	if (!m_active) { return; }
+
 }

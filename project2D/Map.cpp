@@ -180,7 +180,7 @@ int Map::GetLayerCount() const
 	return m_layers;
 }
 
-void Map::TileToWorld(const int a_tileX, const int a_tileY, float & a_outWorldX, float & a_outWorldY) const
+void Map::TileToWorld(const float a_tileX, const float a_tileY, float & a_outWorldX, float & a_outWorldY) const
 {
 	a_outWorldX = a_tileX * m_tileWidth;
 	a_outWorldY = a_tileY * m_tileHeight;
