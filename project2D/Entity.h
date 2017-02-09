@@ -34,7 +34,10 @@ public:
 	void UpdateProgress(float _deltaTime);
 	void CalcMovement();
 	void CheckCollision();
-	void DirToXYOffset(const int& _dir, int& _outX, int& _outY);
+	void DirWrap();
+	void DirWrap(int& _dir);
+	void DirToXYOffset(int& _outX, int& _outY);
+	void DirToXYOffset(int& _dir, int& _outX, int& _outY);
 
 	Map* m_map;
 	aie::Texture* m_texture;

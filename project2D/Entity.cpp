@@ -15,7 +15,7 @@
 const unsigned int Entity::m_defaultColor = (255 << 24) + (255 << 16) + (255 << 8) + 255;
 
 Entity::Entity(Map* _map, EntityID _id, EntityTeam _team)
-	: m_map(_map), m_id(_id), m_team(_team), m_x(), m_y(), m_color(m_defaultColor), m_speed(1), m_active(false)
+	: m_map(_map), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_active(false)
 {
 }
 
@@ -49,15 +49,18 @@ void Entity::UpdateProgress(float _deltaTime)
 	{
 		m_progress -= 1;
 
-		int newX, newY;
 		CalcMovement();
+		// Collision
 	}
 }
 
 void Entity::CalcMovement()
 {
-	int facingX = m_x;
-	int facingY = m_y;
+	int FDirX, FDirY;
+	DirToXYOffset(FDirX, FDirY);
+
+	int facingX = m_x + FDirX;
+	int facingY = m_y + FDirY;
 	int facingID = m_map->GetTile(0, facingX, facingY).GetTileID();
 
 	switch (facingID)
@@ -76,14 +79,44 @@ void Entity::CheckCollision()
 {
 }
 
-void Entity::DirToXYOffset(const int & _dir, int & _outX, int & _outY)
+// Clamps m_dir to 0-359 spectrum
+void Entity::DirWrap()
+{
+	DirWrap(m_dir);
+}
+
+// Clamps Dir to 0-359 spectrum
+void Entity::DirWrap(int & _dir)
+{
+	while (_dir >= 360) _dir -= 360;
+	while (_dir <= 0) _dir += 360;
+}
+
+// Expects m_dir to be in 90 increments and clamped to 0-359 
+void Entity::DirToXYOffset(int & _outX, int & _outY)
+{
+	DirToXYOffset(m_dir, _outX, _outY);
+}
+
+// Expects _dir to be in 90 increments and clamped to 0-359 
+void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY)
 {
 	switch (_dir)
 	{
 	case 0:
-
+		_outX = 1; _outY = 0;
+		break;
+	case 90:
+		_outX = 0; _outY = -1;
+		break;
+	case 180:
+		_outX = 1; _outY = 0;
+		break;
+	case 270:
+		_outX = -1; _outY = 0;
 		break;
 	default:
+		_outX = 0; _outY = 0;
 		break;
 	}
 }
