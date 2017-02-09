@@ -9,5 +9,5 @@ private:
 protected:
 
 public:
-	int GetTileID();
+	int GetTileID() const;
 };

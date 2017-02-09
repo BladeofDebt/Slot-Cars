@@ -1,8 +1,13 @@
 #pragma once
 
-#include "Tile Layer.h"
-#include "../bootstrap/Texture.h"
-#include "../bootstrap/Renderer2D.h"
+class TileLayer;
+class TileSheet;
+class Tile;
+
+namespace aie
+{
+	class Renderer2D;
+}
 
 class Map
 {
@@ -10,10 +15,13 @@ private:
 	int m_width;
 	int m_depth;
 	int m_layers;
+	int m_tileSheetNum;
 
 	TileLayer* mp_tileLayer;
+	TileSheet* mp_tileSheet;
 
-	aie::Texture* mp_textures;
+	float m_tileWidth;
+	float m_tileHeight;
 protected:
 
 public:
@@ -22,9 +30,14 @@ public:
 	~Map();
 
 	Tile& GetTile(int a_layer, int a_x, int a_y);
+	Tile& GetTile(int a_layer, float a_xPos, float a_yPos);
 
 	int GetWidth() const;
 	int GetDepth() const;
+	float GetTileWidth() const;
+	float GetTileHeight() const;
+	int GetLayerCount() const;
+	void TileToWorld(const int a_tileX, const int a_tileY, float& a_outWorldX, float& a_outWorldY) const;
 
-	void Draw(const aie::Renderer2D& a_render);
+	void Draw(aie::Renderer2D& a_render) const;
 };

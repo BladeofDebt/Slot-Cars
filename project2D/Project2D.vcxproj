@@ -98,6 +98,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile Layer.cpp" />
+    <ClCompile Include="Tile Sheet.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
@@ -111,6 +112,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile Layer.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Tile Sheet.h" />
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
