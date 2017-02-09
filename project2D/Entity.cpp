@@ -59,16 +59,11 @@ void Entity::UpdateProgress(float _deltaTime)
 
 void Entity::CalcMovement()
 {
-	//if (TryMoveInDir(DirWrap(m_dir))) {}
-	//else if (TryMoveInDir(DirWrap(m_dir - 90))) {} // Move Left
-	//else if (TryMoveInDir(DirWrap(m_dir + 90))) {} // Move Right
-
-
-	if (TryMoveInDir(GetTurnedDir())) {} // Move Turn Dir
-	else if (TryMoveInDir(DirWrap(m_dir))) {} // Move Forewards
-	else if (TryMoveInDir(DirWrap(m_dir + 90))) {} // Move Left
-	else if (TryMoveInDir(DirWrap(m_dir - 90))) {} // Move Right
-	else TryMoveInDir(DirWrap(m_dir + 180)); {} // Move Backwards
+	if		(TryMoveInDir(		GetTurnedDir())) {}		// Move Turn Dir
+	else if (TryMoveInDir(	DirWrap(m_dir))) {}			// Move Forewards
+	else if (TryMoveInDir(	DirWrap(m_dir - 90))) {}	// Turn Move
+	else if (TryMoveInDir(	DirWrap(m_dir + 90))) {}	// Turn Move
+	else	TryMoveInDir(		DirWrap(m_dir + 180)); {} // Move Backwards
 }
 
 void Entity::CheckCollision(Entity* a_entity)
@@ -115,13 +110,13 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 		_outX = 1; _outY = 0;
 		break;
 	case 90:
-		_outX = 0; _outY = -1;
+		_outX = 0; _outY = 1;
 		break;
 	case 180:
 		_outX = -1; _outY = 0;
 		break;
 	case 270:
-		_outX = 0; _outY = 1;
+		_outX = 0; _outY = -1;
 		break;
 	default:
 		_outX = 0; _outY = 0;
@@ -161,17 +156,21 @@ int Entity::GetTileColIDByDir(const int & _dir) const
 bool Entity::TryMoveInDir(const int & _dir)
 {
 	int tryDir = DirWrap(_dir);
-	int tryID = GetTileColIDByDir(tryDir);
 
-	if (!(tryID != 0))
-	{ // Empty space, so move
-		int xOS, yOS;
+	int xOS, yOS;
+	DirToXYOffset(tryDir, xOS, yOS);
+	xOS = m_x + xOS;
+	yOS = m_y + yOS;
+	int tryID = GetTileColID(xOS, yOS);//GetTileColIDByDir(tryDir);
+
+	if (tryID != 0)
+		return false;
+	else {
+		// Empty space, so move
 		m_dir = tryDir;
-		DirToXYOffset(tryDir, xOS, yOS);
-		m_x += xOS; m_y += yOS;
+		m_x = xOS; m_y = yOS;
 		return true;
 	}
-	else return false;
 }
 
 int Entity::GetTurnedDir() const
