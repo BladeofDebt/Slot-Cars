@@ -33,7 +33,13 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 	default:
 		break;
 	}
-	m_texture = TextureManager::GetSingleton()->Get("car.png");
+
+	TextureManager* tm = TextureManager::GetSingleton();
+
+	m_textureForward = tm->Get("car_forward.png");
+	m_textureLeft = tm->Get("car_turnL.png");
+	m_textureRight = tm->Get("car_turnR.png");
+	m_texture = m_textureForward;
 	m_lowSpeed = 0.75f;
 	m_defaultSpeed = 1.5f;
 	m_highSpeed = 3.0f;
@@ -89,6 +95,7 @@ void Player::HandleInput(float a_deltatime)
 		if (sUp)
 		{ // Speed up
 			m_turn = 0;
+			UpdateTurnVisual();
 			m_speed = m_highSpeed;
 			m_speedCooldown = m_speedCooldownMax;
 		}
@@ -107,10 +114,12 @@ void Player::HandleInput(float a_deltatime)
 	if (_input->isKeyDown(m_inputSet.left))
 	{
 		m_turn = -1;
+		UpdateTurnVisual();
 	}
 	else if (_input->isKeyDown(m_inputSet.right))
 	{
 		m_turn = 1;
+		UpdateTurnVisual();
 	}
 	//Fire
 	if (_input->isKeyDown(m_inputSet.fire))
@@ -128,5 +137,23 @@ void Player::Fire()
 		m_bullet->m_dir = m_dir;
 		m_bullet->m_progress = m_progress;
 		m_bullet->m_turn = m_turn;
+	}
+}
+
+void Player::UpdateTurnVisual()
+{
+	switch (m_turn)
+	{
+	case -1:
+		m_texture = m_textureLeft;
+		break;
+	case 0:
+		m_texture = m_textureForward;
+		break;
+	case 1:
+		m_texture = m_textureRight;
+		break;
+	default:
+		break;
 	}
 }

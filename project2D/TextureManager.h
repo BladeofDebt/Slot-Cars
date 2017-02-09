@@ -13,6 +13,7 @@ public:
 	static void Destroy();
 	static TextureManager* GetSingleton();
 	void LoadTexture(const std::string& _filePath);
+	void LoadTexture_NearestNeighbor(const std::string& _filePath);
 	void LoadTexture(const std::string& _filePath, std::string& _outName);
 	aie::Texture* Get(const char* _fileName);
 

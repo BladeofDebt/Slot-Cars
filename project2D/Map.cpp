@@ -147,12 +147,12 @@ Map::~Map()
 
 Tile& Map::GetTile(int a_layer, int a_x, int a_y)
 {
-	return mp_tileLayer[a_layer].mp_tile[a_x][a_y];
+	return mp_tileLayer[a_layer].mp_tile[a_x][a_y - 1];
 }
 
 Tile& Map::GetTile(int a_layer, float a_xPos, float a_yPos)
 {
-	return mp_tileLayer[a_layer].mp_tile[(int)(a_xPos / m_tileWidth)][m_depth - (int)(a_yPos / m_tileHeight)];
+	return mp_tileLayer[a_layer].mp_tile[(int)(a_xPos / m_tileWidth)][(m_depth - (int)(a_yPos / m_tileHeight))];
 }
 
 int Map::GetWidth() const

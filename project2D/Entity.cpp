@@ -64,8 +64,8 @@ void Entity::CalcMovement()
 {
 	if (TryMoveInDir(GetTurnedDir())) {}		// Move Turn Dir
 	else if (TryMoveInDir(DirWrap(m_dir))) {}			// Move Forewards
-	else if (TryMoveInDir(DirWrap(m_dir - 90))) {}	// Turn Move
 	else if (TryMoveInDir(DirWrap(m_dir + 90))) {}	// Turn Move
+	else if (TryMoveInDir(DirWrap(m_dir - 90))) {}	// Turn Move
 	else	TryMoveInDir(DirWrap(m_dir + 180)); {} // Move Backwards
 }
 
@@ -116,13 +116,13 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 		_outX = 1; _outY = 0;
 		break;
 	case 90:
-		_outX = 0; _outY = 1;
+		_outX = 0; _outY = -1;
 		break;
 	case 180:
 		_outX = -1; _outY = 0;
 		break;
 	case 270:
-		_outX = 0; _outY = -1;
+		_outX = 0; _outY = 1;
 		break;
 	default:
 		_outX = 0; _outY = 0;

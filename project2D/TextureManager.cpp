@@ -35,6 +35,16 @@ void TextureManager::LoadTexture(const std::string & _filePath)
 	m_textures[name] = tex;
 }
 
+void TextureManager::LoadTexture_NearestNeighbor(const std::string & _filePath)
+{
+	int lastIndex = _filePath.find_last_of('/', _filePath.length());
+	std::string name = _filePath.substr(lastIndex + 1);
+
+	aie::Texture* tex = new aie::Texture(_filePath.c_str(), true);
+
+	m_textures[name] = tex;
+}
+
 /// <summary>Returns key (AKA fileName).</summary>
 void TextureManager::LoadTexture(const std::string& _filePath, std::string& _outName)
 {

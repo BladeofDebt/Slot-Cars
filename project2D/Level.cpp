@@ -17,9 +17,13 @@ Level::Level()
 {
 	m_map = new Map("Ze Mountains.tmx");
 
+	//m_map = new Map("Test.tmx");
+
 	TextureManager* tm = TextureManager::GetSingleton();
-	tm->LoadTexture("./textures/car.png");
-	tm->LoadTexture("./textures/bullet.png");
+	tm->LoadTexture_NearestNeighbor("./textures/car_forward.png");
+	tm->LoadTexture_NearestNeighbor("./textures/car_turnL.png");
+	tm->LoadTexture_NearestNeighbor("./textures/car_turnR.png");
+	tm->LoadTexture_NearestNeighbor("./textures/bullet.png");
 
 	// Initialize Entities
 	Bullet* bullet1 = new Bullet(this, EntityTeam::Player1);
