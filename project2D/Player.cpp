@@ -11,16 +11,14 @@
 #include <Input.h>
 #include "TextureManager.h"
 
-// TODO : Remove after testing.
-#include<iostream>
-
 const InputSet Player::PLAYER1_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_W,	aie::EInputCodes::INPUT_KEY_A,		aie::EInputCodes::INPUT_KEY_S,		aie::EInputCodes::INPUT_KEY_D,		aie::EInputCodes::INPUT_KEY_E };
 const InputSet Player::PLAYER2_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_UP,	aie::EInputCodes::INPUT_KEY_LEFT,	aie::EInputCodes::INPUT_KEY_DOWN,	aie::EInputCodes::INPUT_KEY_RIGHT,	aie::EInputCodes::INPUT_KEY_KP_0 };
 
 Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 	: Entity(_level, EntityID::Player, _team), m_bullet(a_bullet)
 {
-	m_active = true;
+	m_activeSet = true;
+	m_activeGet = true;
 
 	switch (_team)
 	{
@@ -51,21 +49,30 @@ Player::~Player()
 
 void Player::Update(float a_deltatime)
 {
-	if (!m_active) { return; }
+	if (!m_activeGet) { return; }
 
-	Entity::UpdateMovement(a_deltatime);
+	Entity::Update(a_deltatime);
 	HandleInput(a_deltatime);
 }
 
 void Player::OnCollision(Entity * a_entity)
 {
-	if (!m_active) { return; }
+	if (!m_activeGet) { return; }
+
+	switch (a_entity->m_id)
+	{
+	case EntityID::Bullet:
+		m_activeSet = false;
+		break;
+	default:
+		break;
+	}
 
 	//a_entity->m_active = false;
 	// TODO : Remove after testing.
 
-	if (a_entity->m_id == EntityID::Bullet)
-		std::cout << "Bullet Collision" << std::endl;
+	//if (a_entity->m_id == EntityID::Bullet)
+		//std::cout << "Bullet Collision" << std::endl;
 	//else
 		//std::cout << "Player Collided" << std::endl;
 }
@@ -73,42 +80,45 @@ void Player::OnCollision(Entity * a_entity)
 
 void Player::HandleInput(float a_deltatime)
 {
+	aie::Input* _input = aie::Input::getInstance();
+
 	//Speed Control
 	if (m_speedCooldown > 0)
 		m_speedCooldown -= a_deltatime;
+
 	if (m_speedCooldown <= 0)
 	{
-		aie::Input* _input = aie::Input::getInstance();
 		bool sUp = _input->isKeyDown(m_inputSet.accelerate);
 		bool sDown = _input->isKeyDown(m_inputSet.deccelerate);
 
 		if (sUp)
-		{
+		{ // Speed up
+			m_turn = 0;
 			m_speed = m_highSpeed;
 			m_speedCooldown = m_speedCooldownMax;
 		}
 		else if (sDown)
-		{
+		{ // Speed down
 			m_speed = m_lowSpeed;
 			m_speedCooldown = m_speedCooldownMax;
 		}
 		else
-		{
+		{  // Speed normalise
 			m_speed = m_defaultSpeed;
 		}
 	}
 
 	//Turn Control
-	if (aie::Input::getInstance()->isKeyDown(m_inputSet.left))
+	if (_input->isKeyDown(m_inputSet.left))
 	{
 		m_turn = -1;
 	}
-	else if (aie::Input::getInstance()->isKeyDown(m_inputSet.right))
+	else if (_input->isKeyDown(m_inputSet.right))
 	{
 		m_turn = 1;
 	}
-
-	if (aie::Input::getInstance()->isKeyDown(m_inputSet.fire))
+	//Fire
+	if (_input->isKeyDown(m_inputSet.fire))
 	{
 		Fire();
 	}
@@ -116,8 +126,12 @@ void Player::HandleInput(float a_deltatime)
 
 void Player::Fire()
 {
-	m_bullet->m_active = true;
-	m_bullet->m_x = m_x;
-	m_bullet->m_y = m_y;
-	m_bullet->m_dir = m_dir;
+	if (!m_bullet->m_activeGet) {
+		m_bullet->m_activeSet = true;
+		m_bullet->m_x = m_x;
+		m_bullet->m_y = m_y;
+		m_bullet->m_dir = m_dir;
+		m_bullet->m_progress = m_progress;
+		m_bullet->m_turn = m_turn;
+	}
 }

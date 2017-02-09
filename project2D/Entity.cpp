@@ -16,7 +16,7 @@
 const unsigned int Entity::m_defaultColor = (255 << 24) + (255 << 16) + (255 << 8) + 255;
 
 Entity::Entity(Level* _level, EntityID _id, EntityTeam _team)
-	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_active(false)
+	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_activeGet(false), m_activeSet(false)
 {
 }
 
@@ -26,7 +26,7 @@ Entity::~Entity()
 
 void Entity::Draw(aie::Renderer2D * _renderer)
 {
-	if (!m_active) { return; }
+	if (!m_activeGet) { return; }
 
 	float newX, newY;
 	m_level->m_map->TileToWorld(m_x, m_y, newX, newY);
@@ -38,13 +38,15 @@ void Entity::Draw(aie::Renderer2D * _renderer)
 	_renderer->setRenderColour(m_defaultColor);
 }
 
-void Entity::UpdateMovement(float _deltaTime)
+void Entity::Update(float a_deltatime)
 {
 	TryCollision();
-	UpdateProgress(_deltaTime);
+	m_activeGet = m_activeSet;
+	if (m_activeGet)
+		UpdateMovement(a_deltatime);
 }
 
-void Entity::UpdateProgress(float _deltaTime)
+void Entity::UpdateMovement(float _deltaTime)
 {
 	m_progress += _deltaTime * m_speed;
 
@@ -60,24 +62,27 @@ void Entity::UpdateProgress(float _deltaTime)
 
 void Entity::CalcMovement()
 {
-	if		(TryMoveInDir(		GetTurnedDir())) {}		// Move Turn Dir
-	else if (TryMoveInDir(	DirWrap(m_dir))) {}			// Move Forewards
-	else if (TryMoveInDir(	DirWrap(m_dir - 90))) {}	// Turn Move
-	else if (TryMoveInDir(	DirWrap(m_dir + 90))) {}	// Turn Move
-	else	TryMoveInDir(		DirWrap(m_dir + 180)); {} // Move Backwards
+	if (TryMoveInDir(GetTurnedDir())) {}		// Move Turn Dir
+	else if (TryMoveInDir(DirWrap(m_dir))) {}			// Move Forewards
+	else if (TryMoveInDir(DirWrap(m_dir - 90))) {}	// Turn Move
+	else if (TryMoveInDir(DirWrap(m_dir + 90))) {}	// Turn Move
+	else	TryMoveInDir(DirWrap(m_dir + 180)); {} // Move Backwards
 }
 
 void Entity::CheckCollision(Entity* a_entity)
 {
 	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
+	{
 		OnCollision(a_entity);
+		a_entity->OnCollision(this);
+	}
 }
 
 void Entity::TryCollision()
 {
 	for (auto i = m_level->m_entities.begin(); i != m_level->m_entities.end(); i++)
 	{
-		if ((*i)->m_team != m_team && (*i)->m_active)
+		if ((*i)->m_team != m_team && (*i)->m_activeGet)
 			CheckCollision((*i));
 	}
 }

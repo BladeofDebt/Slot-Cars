@@ -8,8 +8,9 @@ public:
 	~Bullet();
 
 	void Update(float a_deltatime) override;
-	void OnCollision(Entity* m_entity) override;
+	void OnCollision(Entity* a_entity) override;
 
+	float m_lifeTime, m_lifeTimeMax;
 private:
 
 };
