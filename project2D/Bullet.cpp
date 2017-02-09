@@ -8,8 +8,8 @@
 #include "Bullet.h"
 #include "TextureManager.h"
 
-Bullet::Bullet(Map* _map, EntityTeam _team)
-	: Entity(_map, EntityID::Bullet, _team)
+Bullet::Bullet(Level* _level, EntityTeam _team)
+	: Entity(_level, EntityID::Bullet, _team)
 {
 
 	m_texture = TextureManager::GetSingleton()->Get("bullet.png");

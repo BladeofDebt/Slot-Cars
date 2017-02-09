@@ -22,16 +22,16 @@ Level::Level()
 	tm->LoadTexture("./textures/bullet.png");
 
 	// Initialize Entities
-	Bullet* bullet1 = new Bullet(m_map, EntityTeam::Player1);
+	Bullet* bullet1 = new Bullet(this, EntityTeam::Player1);
 	m_entities.push_back(bullet1);
 
-	Bullet* bullet2 = new Bullet(m_map, EntityTeam::Player2);
+	Bullet* bullet2 = new Bullet(this, EntityTeam::Player2);
 	m_entities.push_back(bullet2);
 
-	Player* player1 = new Player(m_map, EntityTeam::Player1, bullet1);
+	Player* player1 = new Player(this, EntityTeam::Player1, bullet1);
 	m_entities.push_back(player1);
 
-	Player* player2 = new Player(m_map, EntityTeam::Player2, bullet2);
+	Player* player2 = new Player(this, EntityTeam::Player2, bullet2);
 	m_entities.push_back(player2);
 }
 

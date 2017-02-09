@@ -9,13 +9,14 @@
 #include <Texture.h>
 #include <Renderer2D.h>
 #include "TextureManager.h"
+#include "Level.h"
 #include "Map.h"
 #include "Tile.h"
 
 const unsigned int Entity::m_defaultColor = (255 << 24) + (255 << 16) + (255 << 8) + 255;
 
-Entity::Entity(Map* _map, EntityID _id, EntityTeam _team)
-	: m_map(_map), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_active(false)
+Entity::Entity(Level* _level, EntityID _id, EntityTeam _team)
+	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_active(false)
 {
 }
 
@@ -28,9 +29,9 @@ void Entity::Draw(aie::Renderer2D * _renderer)
 	if (!m_active) { return; }
 
 	float newX, newY;
-	m_map->TileToWorld(m_x, m_y, newX, newY);
-	float width = m_map->GetTileWidth();
-	float height = m_map->GetTileHeight();
+	m_level->m_map->TileToWorld(m_x, m_y, newX, newY);
+	float width = m_level->m_map->GetTileWidth();
+	float height = m_level->m_map->GetTileHeight();
 
 	_renderer->setRenderColour(m_color);
 	_renderer->drawSprite(m_texture, newX + width * 0.5f, newY + height * 0.5f, width, height);
@@ -61,7 +62,7 @@ void Entity::CalcMovement()
 
 	int facingX = m_x + FDirX;
 	int facingY = m_y + FDirY;
-	int facingID = m_map->GetTile(0, facingX, facingY).GetTileID();
+	int facingID = m_level->m_map->GetTile(0, facingX, facingY).GetTileID();
 
 	switch (facingID)
 	{

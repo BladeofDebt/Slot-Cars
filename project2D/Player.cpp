@@ -14,8 +14,8 @@
 const InputSet Player::PLAYER1_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_W,	aie::EInputCodes::INPUT_KEY_A,		aie::EInputCodes::INPUT_KEY_S,		aie::EInputCodes::INPUT_KEY_D,		aie::EInputCodes::INPUT_KEY_E };
 const InputSet Player::PLAYER2_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_UP,	aie::EInputCodes::INPUT_KEY_LEFT,	aie::EInputCodes::INPUT_KEY_DOWN,	aie::EInputCodes::INPUT_KEY_RIGHT,	aie::EInputCodes::INPUT_KEY_KP_0 };
 
-Player::Player(Map * _map, EntityTeam _team, Bullet* a_bullet)
-	: Entity(_map, EntityID::Player, _team), m_bullet(a_bullet)
+Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
+	: Entity(_level, EntityID::Player, _team), m_bullet(a_bullet)
 {
 	m_active = true;
 

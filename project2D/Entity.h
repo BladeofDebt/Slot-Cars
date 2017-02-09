@@ -1,6 +1,6 @@
 #pragma once
 
-class Map;
+class Level;
 namespace aie { class Texture; class Renderer2D; }
 
 enum class EntityID
@@ -22,7 +22,7 @@ enum class EntityTeam
 class Entity
 {
 public:
-	Entity(Map* _map, EntityID _id, EntityTeam _team);
+	Entity(Level* _level, EntityID _id, EntityTeam _team);
 	~Entity();
 
 	void Draw(aie::Renderer2D* _renderer);
@@ -40,7 +40,7 @@ public:
 	void DirToXYOffset(int& _outX, int& _outY);
 	void DirToXYOffset(int& _dir, int& _outX, int& _outY);
 
-	Map* m_map;
+	Level* m_level;
 	aie::Texture* m_texture;
 	EntityID m_id;
 	EntityTeam m_team;

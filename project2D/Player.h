@@ -11,7 +11,7 @@ struct InputSet
 class Player : public Entity
 {
 public:
-	Player(Map* _map, EntityTeam _team, Bullet* a_bullet);
+	Player(Level* _level, EntityTeam _team, Bullet* a_bullet);
 	~Player();
 	
 	void Update(float a_deltatime) override;
