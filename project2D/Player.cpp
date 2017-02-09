@@ -6,18 +6,19 @@
 #endif
 
 #include "Player.h"
+#include"Bullet.h"
 #include "Map.h"
 #include <Input.h>
 #include "TextureManager.h"
 
-//#include<iostream>
-
 const InputSet Player::PLAYER1_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_W,	aie::EInputCodes::INPUT_KEY_A,		aie::EInputCodes::INPUT_KEY_S,		aie::EInputCodes::INPUT_KEY_D,		aie::EInputCodes::INPUT_KEY_E };
 const InputSet Player::PLAYER2_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_UP,	aie::EInputCodes::INPUT_KEY_LEFT,	aie::EInputCodes::INPUT_KEY_DOWN,	aie::EInputCodes::INPUT_KEY_RIGHT,	aie::EInputCodes::INPUT_KEY_KP_0 };
 
-Player::Player(Map * _map, EntityTeam _team)
-	: Entity(_map, EntityID::Player, _team)
+Player::Player(Map * _map, EntityTeam _team, Bullet* a_bullet)
+	: Entity(_map, EntityID::Player, _team), m_bullet(a_bullet)
 {
+	m_active = true;
+
 	switch (_team)
 	{
 	case EntityTeam::Player1:
@@ -46,17 +47,39 @@ void Player::Update(float a_deltatime)
 	Entity::UpdateMovement(a_deltatime);
 }
 
+void Player::OnCollision(Entity * m_entity)
+{
+}
+
+
 void Player::HandleInput()
 {
 	if (aie::Input::getInstance()->isKeyDown(m_inputSet.accelerate))
 	{
-		// test
-		// std::cout << "Player 1 accelerate input test" << std::endl;
 
+	}
+	if (aie::Input::getInstance()->isKeyDown(m_inputSet.deccelerate))
+	{
 
+	}
+	if (aie::Input::getInstance()->isKeyDown(m_inputSet.left))
+	{
+
+	}
+	if (aie::Input::getInstance()->isKeyDown(m_inputSet.right))
+	{
+
+	}
+	if (aie::Input::getInstance()->isKeyDown(m_inputSet.fire))
+	{
+		Fire();
 	}
 }
 
 void Player::Fire()
 {
+	m_bullet->m_x = m_x;
+	m_bullet->m_y = m_y;
+	m_bullet->m_dir = m_dir;
+	m_bullet->m_active = true;
 }

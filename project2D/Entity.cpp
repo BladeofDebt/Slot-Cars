@@ -72,8 +72,10 @@ void Entity::CalcMovement()
 	}
 }
 
-void Entity::CheckCollision()
+void Entity::CheckCollision(Entity* a_entity)
 {
+	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
+		OnCollision(a_entity);
 }
 
 void Entity::DirToXYOffset(const int & _dir, int & _outX, int & _outY)

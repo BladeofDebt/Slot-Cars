@@ -11,6 +11,7 @@
 #include "TextureManager.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Bullet.h"
 
 Level::Level()
 {
@@ -20,8 +21,18 @@ Level::Level()
 	tm->LoadTexture("./textures/car.png");
 	tm->LoadTexture("./textures/bullet.png");
 
-	Player* player1 = new Player(m_map, EntityTeam::Player1);
+	// Initialize Entities
+	Bullet* bullet1 = new Bullet(m_map, EntityTeam::Player1);
+	m_entities.push_back(bullet1);
+
+	Bullet* bullet2 = new Bullet(m_map, EntityTeam::Player2);
+	m_entities.push_back(bullet2);
+
+	Player* player1 = new Player(m_map, EntityTeam::Player1, bullet1);
 	m_entities.push_back(player1);
+
+	Player* player2 = new Player(m_map, EntityTeam::Player2, bullet2);
+	m_entities.push_back(player2);
 }
 
 Level::~Level()
@@ -40,7 +51,7 @@ void Level::Start()
 void Level::Update(float a_deltatime)
 {
 	for (auto i = m_entities.begin(); i != m_entities.end(); i++)
-		(*i)->Update(a_deltatime);
+		(*i)->Update(a_deltatime);	
 }
 
 void Level::Draw(aie::Renderer2D * _renderer)

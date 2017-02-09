@@ -8,6 +8,7 @@ public:
 	~Bullet();
 
 	void Update(float a_deltatime) override;
+	void OnCollision(Entity* m_entity) override;
 
 private:
 

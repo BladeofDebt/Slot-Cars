@@ -23,4 +23,10 @@ void Bullet::Update(float a_deltatime)
 {
 	if (!m_active) { return; }
 
+	
+
+}
+
+void Bullet::OnCollision(Entity * m_entity)
+{
 }
