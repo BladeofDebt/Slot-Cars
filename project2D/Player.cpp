@@ -36,7 +36,6 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 		break;
 	}
 	m_texture = TextureManager::GetSingleton()->Get("car.png");
-	m_speed = 4;
 	m_x = 3;
 	m_y = 3;
 }

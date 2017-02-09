@@ -34,7 +34,7 @@ void Entity::Draw(aie::Renderer2D * _renderer)
 	float height = m_level->m_map->GetTileHeight();
 
 	_renderer->setRenderColour(m_color);
-	_renderer->drawSprite(m_texture, newX + width * 0.5f, newY + height * 0.5f, width, height, ((m_dir + 90.0f) * 3.1415926535897) / 180.0f);
+	_renderer->drawSprite(m_texture, newX + width * 0.5f, newY + height * 0.5f, width, height, (m_dir * 3.1415926535897) / 180.0f);
 	_renderer->setRenderColour(m_defaultColor);
 }
 
@@ -59,11 +59,16 @@ void Entity::UpdateProgress(float _deltaTime)
 
 void Entity::CalcMovement()
 {
-	if (!TryMoveInDir(GetTurnedDir())) // Move Turn Dir
-		if (!TryMoveInDir(DirWrap(m_dir))) // Move Forwards
-			if (!TryMoveInDir(DirWrap(m_dir - 90))) // Move Left
-				if (!TryMoveInDir(DirWrap(m_dir + 90))) // Move Right
-					TryMoveInDir(DirWrap(m_dir + 180)); // Move Backwards
+	//if (TryMoveInDir(DirWrap(m_dir))) {}
+	//else if (TryMoveInDir(DirWrap(m_dir - 90))) {} // Move Left
+	//else if (TryMoveInDir(DirWrap(m_dir + 90))) {} // Move Right
+
+
+	if (TryMoveInDir(GetTurnedDir())) {} // Move Turn Dir
+	else if (TryMoveInDir(DirWrap(m_dir))) {} // Move Forewards
+	else if (TryMoveInDir(DirWrap(m_dir + 90))) {} // Move Left
+	else if (TryMoveInDir(DirWrap(m_dir - 90))) {} // Move Right
+	else TryMoveInDir(DirWrap(m_dir + 180)); {} // Move Backwards
 }
 
 void Entity::CheckCollision(Entity* a_entity)
@@ -91,7 +96,7 @@ void Entity::DirWrap()
 int Entity::DirWrap(int _dir) const
 {
 	while (_dir >= 360) _dir -= 360;
-	while (_dir <= 0) _dir += 360;
+	while (_dir < 0) _dir += 360;
 	return _dir;
 }
 
@@ -113,10 +118,10 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 		_outX = 0; _outY = -1;
 		break;
 	case 180:
-		_outX = 1; _outY = 0;
+		_outX = -1; _outY = 0;
 		break;
 	case 270:
-		_outX = -1; _outY = 0;
+		_outX = 0; _outY = 1;
 		break;
 	default:
 		_outX = 0; _outY = 0;
@@ -143,8 +148,8 @@ int Entity::GetTileColID(int _x, int _y) const
 
 int Entity::GetTileColIDByDir(const int & _dir) const
 {
-	int dir = _dir;
-	DirWrap(dir);
+	int dir = DirWrap(_dir);
+
 	int dirX, dirY;
 	DirToXYOffset(dir, dirX, dirY);
 
@@ -155,16 +160,15 @@ int Entity::GetTileColIDByDir(const int & _dir) const
 
 bool Entity::TryMoveInDir(const int & _dir)
 {
-	int tryDir = _dir;
-	DirWrap(tryDir);
+	int tryDir = DirWrap(_dir);
 	int tryID = GetTileColIDByDir(tryDir);
 
 	if (!(tryID != 0))
 	{ // Empty space, so move
 		int xOS, yOS;
+		m_dir = tryDir;
 		DirToXYOffset(tryDir, xOS, yOS);
 		m_x += xOS; m_y += yOS;
-		m_dir = tryDir;
 		return true;
 	}
 	else return false;
@@ -186,6 +190,5 @@ int Entity::GetTurnedDir() const
 	default:
 		break;
 	}
-	DirWrap(newDir);
-	return newDir;
+	return DirWrap(newDir);
 }
