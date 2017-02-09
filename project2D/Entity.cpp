@@ -40,6 +40,7 @@ void Entity::Draw(aie::Renderer2D * _renderer)
 
 void Entity::UpdateMovement(float _deltaTime)
 {
+	TryCollision();
 	UpdateProgress(_deltaTime);
 }
 
@@ -51,7 +52,8 @@ void Entity::UpdateProgress(float _deltaTime)
 		m_progress -= 1;
 
 		CalcMovement();
-		// Collision
+
+		TryCollision();
 	}
 }
 
@@ -80,6 +82,15 @@ void Entity::CheckCollision(Entity* a_entity)
 {
 	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
 		OnCollision(a_entity);
+}
+
+void Entity::TryCollision()
+{
+	for (auto i = m_level->m_entities.begin(); i != m_level->m_entities.end(); i++)
+	{
+		if ((*i)->m_team != m_team && (*i)->m_active)
+			CheckCollision((*i));
+	}
 }
 
 // Clamps m_dir to 0-359 spectrum
