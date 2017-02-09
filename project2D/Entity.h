@@ -30,12 +30,14 @@ public:
 	void UpdateMovement(float _deltaTime);
 
 	virtual void Update(float a_deltatime) = 0;
-	virtual void OnCollision(Entity* a_entity) = 0;
 
 	void UpdateProgress(float _deltaTime);
 	void CalcMovement();
-	void CheckCollision(Entity* a_entity);
-	void DirToXYOffset(const int& _dir, int& _outX, int& _outY);
+	void CheckCollision();
+	void DirWrap();
+	void DirWrap(int& _dir);
+	void DirToXYOffset(int& _outX, int& _outY);
+	void DirToXYOffset(int& _dir, int& _outX, int& _outY);
 
 	Map* m_map;
 	aie::Texture* m_texture;
