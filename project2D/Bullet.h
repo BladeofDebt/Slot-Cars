@@ -4,7 +4,7 @@
 class Bullet : public Entity
 {
 public:
-	Bullet();
+	Bullet(Map* _map, EntityTeam _team);
 	~Bullet();
 
 private:

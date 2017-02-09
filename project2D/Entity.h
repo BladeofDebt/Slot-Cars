@@ -1,5 +1,8 @@
 #pragma once
 
+class Map;
+namespace aie { class Texture; class Renderer2D; }
+
 enum class EntityID
 {
 	Invalid,
@@ -19,12 +22,22 @@ enum class EntityTeam
 class Entity
 {
 public:
-	Entity();
+	Entity(Map* _map, EntityID _id, EntityTeam _team);
 	~Entity();
 
+	void Draw(aie::Renderer2D* _renderer);
 	// Move on grid
 	void UpdateMovement(float _deltaTime);
 
+	virtual void Update(float a_deltatime) = 0;
+
+	void UpdateProgress(float _deltaTime);
+	void PredictMovement(int _outX, int _outY);
+	void MoveTo(int _x, int _y);
+	void CheckCollision();
+
+	Map* m_map;
+	aie::Texture* m_texture;
 	EntityID m_id;
 	EntityTeam m_team;
 	int m_x, m_y;

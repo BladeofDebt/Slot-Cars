@@ -10,10 +10,10 @@ struct InputSet
 class Player : public Entity
 {
 public:
-	Player();
-	Player(InputSet _inputSet);
+	Player(Map* _map, EntityTeam _team, InputSet _inputSet);
 	~Player();
-
+	
+	void Update(float a_deltatime) override;
 	void HandleInput();
 	void Fire();
 

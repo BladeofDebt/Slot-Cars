@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../bootstrap/Renderer2D.h"
+#include <vector>
+
+namespace aie { class Renderer2D; }
 class Map;
+class Entity;
 
 class Level
 {
-	Map* mp_map;
-
 public:
 	Level();
 	~Level();
@@ -14,4 +15,7 @@ public:
 	void Start();
 	void Update(float a_deltatime);
 	void Draw(aie::Renderer2D* _renderer);
+
+	std::vector<Entity*> m_entities;
+	Map* m_map;
 };
