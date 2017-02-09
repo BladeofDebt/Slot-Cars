@@ -90,6 +90,10 @@ void Application2D::draw() {
 
 	m_level->Draw(m_2dRenderer);
 
+	char string[16];
+	itoa(m_fps, string, 10);
+	m_2dRenderer->drawText(m_font, string, 0.0f, getWindowHeight() - 30.0f);
+
 	// done drawing sprites
 	m_2dRenderer->end();
 }

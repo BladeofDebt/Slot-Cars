@@ -226,7 +226,7 @@ void Map::Draw(aie::Renderer2D& a_render) const
 					float h = ((yPos + 1) * tileHeight) / tileSheetHeight;
 
 					a_render.setUVRect(u, v, w, h);
-					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth, y * m_tileHeight);
+					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + m_tileWidth, y * m_tileHeight + (m_tileHeight / 2.0f));
 				}
 			}
 		}

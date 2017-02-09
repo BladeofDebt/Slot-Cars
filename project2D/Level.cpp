@@ -4,7 +4,7 @@
 
 Level::Level()
 {
-	mp_map = new Map("Tilemap.tmx");
+	mp_map = new Map("Test.tmx");
 }
 
 Level::~Level()
