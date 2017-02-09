@@ -34,7 +34,7 @@ void Entity::Draw(aie::Renderer2D * _renderer)
 	float height = m_level->m_map->GetTileHeight();
 
 	_renderer->setRenderColour(m_color);
-	_renderer->drawSprite(m_texture, newX + width * 0.5f, newY + height * 0.5f, width, height);
+	_renderer->drawSprite(m_texture, newX + width * 0.5f, newY + height * 0.5f, width, height, ((m_dir + 90.0f) * 3.1415926535897) / 180.0f);
 	_renderer->setRenderColour(m_defaultColor);
 }
 
@@ -57,23 +57,11 @@ void Entity::UpdateProgress(float _deltaTime)
 
 void Entity::CalcMovement()
 {
-	int FDirX, FDirY;
-	DirToXYOffset(FDirX, FDirY);
-
-	int facingX = m_x + FDirX;
-	int facingY = m_y + FDirY;
-	int facingID = m_level->m_map->GetTile(0, facingX, facingY).GetTileID();
-
-	switch (facingID)
-	{
-	case 0: // Empty space in front
-		m_x = facingX;
-		m_y = facingY;
-		break;
-	default:
-
-		break;
-	}
+	if (!TryMoveInDir(GetTurnedDir())) // Move Turn Dir
+		if (!TryMoveInDir(DirWrap(m_dir))) // Move Forwards
+			if (!TryMoveInDir(DirWrap(m_dir - 90))) // Move Left
+				if (!TryMoveInDir(DirWrap(m_dir + 90))) // Move Right
+					TryMoveInDir(DirWrap(m_dir + 180)); // Move Backwards
 }
 
 void Entity::CheckCollision(Entity* a_entity)
@@ -85,14 +73,15 @@ void Entity::CheckCollision(Entity* a_entity)
 // Clamps m_dir to 0-359 spectrum
 void Entity::DirWrap()
 {
-	DirWrap(m_dir);
+	m_dir = DirWrap(m_dir);
 }
 
 // Clamps Dir to 0-359 spectrum
-void Entity::DirWrap(int & _dir)
+int Entity::DirWrap(int _dir) const
 {
 	while (_dir >= 360) _dir -= 360;
 	while (_dir <= 0) _dir += 360;
+	return _dir;
 }
 
 // Expects m_dir to be in 90 increments and clamped to 0-359 
@@ -102,7 +91,7 @@ void Entity::DirToXYOffset(int & _outX, int & _outY)
 }
 
 // Expects _dir to be in 90 increments and clamped to 0-359 
-void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY)
+void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 {
 	switch (_dir)
 	{
@@ -126,8 +115,66 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY)
 
 unsigned int Entity::CToIColor(const char & a, const char & r, const char & g, const char & b)
 {
-	return ((r & 0xFF) << 24) | //alpha
+	return ((b & 0xFF) << 24) | //alpha
 		(((int)g & 0xFF) << 16) | //red
-		(((int)b & 0xFF) << 8) | //green
+		(((int)r & 0xFF) << 8) | //green
 		(((int)a & 0xFF) << 0); //blue
+}
+
+int Entity::GetTileColID(int _x, int _y) const
+{
+	int width = m_level->m_map->GetWidth();
+	int height = m_level->m_map->GetDepth();
+	if (_x >= width) _x = width - 1;
+	if (_y >= height) _y = height - 1;
+	return m_level->m_map->GetTile(0, _x, _y).GetTileID();
+}
+
+int Entity::GetTileColIDByDir(const int & _dir) const
+{
+	int dir = _dir;
+	DirWrap(dir);
+	int dirX, dirY;
+	DirToXYOffset(dir, dirX, dirY);
+
+	int frontX = m_x + dirX;
+	int frontY = m_y + dirY;
+	return GetTileColID(frontX, frontY);
+}
+
+bool Entity::TryMoveInDir(const int & _dir)
+{
+	int tryDir = _dir;
+	DirWrap(tryDir);
+	int tryID = GetTileColIDByDir(tryDir);
+
+	if (!(tryID != 0))
+	{ // Empty space, so move
+		int xOS, yOS;
+		DirToXYOffset(tryDir, xOS, yOS);
+		m_x += xOS; m_y += yOS;
+		m_dir = tryDir;
+		return true;
+	}
+	else return false;
+}
+
+int Entity::GetTurnedDir() const
+{
+	int newDir = m_dir;
+	switch (m_turn)
+	{
+	case -1:
+		newDir -= 90;
+		break;
+	case 0:
+		break;
+	case 1:
+		newDir += 90;
+		break;
+	default:
+		break;
+	}
+	DirWrap(newDir);
+	return newDir;
 }

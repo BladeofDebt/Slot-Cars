@@ -36,9 +36,9 @@ public:
 	void CalcMovement();
 	void CheckCollision(Entity * a_entity);
 	void DirWrap();
-	void DirWrap(int& _dir);
+	int DirWrap(int _dir) const;
 	void DirToXYOffset(int& _outX, int& _outY);
-	void DirToXYOffset(int& _dir, int& _outX, int& _outY);
+	void DirToXYOffset(int& _dir, int& _outX, int& _outY) const;
 
 	Level* m_level;
 	aie::Texture* m_texture;
@@ -54,5 +54,9 @@ public:
 	bool m_active;
 
 protected:
-	unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
+	static unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
+	int GetTileColID(int _x, int _y) const;
+	int GetTileColIDByDir(const int& _dir) const;
+	bool TryMoveInDir(const int& _dir);
+	int GetTurnedDir() const;
 };
