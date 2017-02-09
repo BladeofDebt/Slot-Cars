@@ -80,7 +80,7 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 
 	m_level->Draw(m_2dRenderer);
-	m_2dRenderer->drawSprite(TextureManager::GetSingleton()->Get("ship.png"), 200, 200, 100, 100);
+	//m_2dRenderer->drawSprite(TextureManager::GetSingleton()->Get("ship.png"), 200, 200, 100, 100);
 
 	char fpsString[16];
 
