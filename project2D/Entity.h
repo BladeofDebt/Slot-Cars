@@ -35,6 +35,7 @@ public:
 	void UpdateProgress(float _deltaTime);
 	void CalcMovement();
 	void CheckCollision(Entity * a_entity);
+	void TryCollision();
 	void DirWrap();
 	int DirWrap(int _dir) const;
 	void DirToXYOffset(int& _outX, int& _outY);

@@ -11,6 +11,9 @@
 #include <Input.h>
 #include "TextureManager.h"
 
+// TODO : Remove after testing.
+#include<iostream>
+
 const InputSet Player::PLAYER1_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_W,	aie::EInputCodes::INPUT_KEY_A,		aie::EInputCodes::INPUT_KEY_S,		aie::EInputCodes::INPUT_KEY_D,		aie::EInputCodes::INPUT_KEY_E };
 const InputSet Player::PLAYER2_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_UP,	aie::EInputCodes::INPUT_KEY_LEFT,	aie::EInputCodes::INPUT_KEY_DOWN,	aie::EInputCodes::INPUT_KEY_RIGHT,	aie::EInputCodes::INPUT_KEY_KP_0 };
 
@@ -26,7 +29,7 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 		m_color = CToIColor(255, 255, 0, 0);
 		break;
 	case EntityTeam::Player2:
-		m_inputSet = PLAYER1_INPUTSET;
+		m_inputSet = PLAYER2_INPUTSET;
 		m_color = CToIColor(255, 0, 0, 255);
 		break;
 	default:
@@ -46,12 +49,21 @@ void Player::Update(float a_deltatime)
 {
 	if (!m_active) { return; }
 
-	HandleInput();
 	Entity::UpdateMovement(a_deltatime);
+	HandleInput();
 }
 
-void Player::OnCollision(Entity * m_entity)
+void Player::OnCollision(Entity * a_entity)
 {
+	if (!m_active) { return; }
+
+	//a_entity->m_active = false;
+	// TODO : Remove after testing.
+
+	if (a_entity->m_id == EntityID::Bullet)
+		std::cout << "Bullet Collision" << std::endl;
+	//else
+		//std::cout << "Player Collided" << std::endl;
 }
 
 
@@ -81,8 +93,8 @@ void Player::HandleInput()
 
 void Player::Fire()
 {
+	m_bullet->m_active = true;
 	m_bullet->m_x = m_x;
 	m_bullet->m_y = m_y;
 	m_bullet->m_dir = m_dir;
-	m_bullet->m_active = true;
 }
