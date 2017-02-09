@@ -25,4 +25,5 @@ void Level::Update(float a_deltatime)
 
 void Level::Draw(aie::Renderer2D * _renderer)
 {
+	mp_map->Draw(*_renderer);
 }

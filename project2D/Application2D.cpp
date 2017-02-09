@@ -6,7 +6,6 @@
 #include "Level.h"
 
 Application2D::Application2D() {
-	m_level = new Level();
 }
 
 Application2D::~Application2D() {
@@ -14,7 +13,7 @@ Application2D::~Application2D() {
 }
 
 bool Application2D::startup() {
-	
+
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_texture = new aie::Texture("./textures/numbered_grid.tga");
@@ -28,6 +27,7 @@ bool Application2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+	m_level = new Level();
 	m_level->Start();
 
 
@@ -88,7 +88,7 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	//TODO: Add Level Draw Here.
+	m_level->Draw(m_2dRenderer);
 
 	// done drawing sprites
 	m_2dRenderer->end();

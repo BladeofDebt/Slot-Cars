@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-int Tile::GetTileID()
+int Tile::GetTileID() const
 {
 	return m_tileId;
 }
