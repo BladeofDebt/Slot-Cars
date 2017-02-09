@@ -80,7 +80,13 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 
 	m_level->Draw(m_2dRenderer);
-	m_2dRenderer->drawSprite(TextureManager::GetSingleton()->Get("ship.png"), 200, 200, 100, 100);
+	//m_2dRenderer->drawSprite(TextureManager::GetSingleton()->Get("ship.png"), 200, 200, 100, 100);
+
+	char fpsString[16];
+
+	itoa(m_fps, fpsString, 10);
+
+	m_2dRenderer->drawText(m_font, fpsString, 0.0f, getWindowHeight() - 30.0f);
 
 	// done drawing sprites
 	m_2dRenderer->end();

@@ -152,7 +152,7 @@ Tile& Map::GetTile(int a_layer, int a_x, int a_y)
 
 Tile& Map::GetTile(int a_layer, float a_xPos, float a_yPos)
 {
-	return mp_tileLayer[a_layer].mp_tile[(int)(a_xPos / m_tileWidth)][(int)(a_yPos / m_tileHeight)];
+	return mp_tileLayer[a_layer].mp_tile[(int)(a_xPos / m_tileWidth)][m_depth - (int)(a_yPos / m_tileHeight)];
 }
 
 int Map::GetWidth() const
@@ -183,7 +183,7 @@ int Map::GetLayerCount() const
 void Map::TileToWorld(const float a_tileX, const float a_tileY, float & a_outWorldX, float & a_outWorldY) const
 {
 	a_outWorldX = a_tileX * m_tileWidth;
-	a_outWorldY = a_tileY * m_tileHeight;
+	a_outWorldY = (m_depth - a_tileY) * m_tileHeight;
 }
 
 void Map::Draw(aie::Renderer2D& a_render) const
@@ -225,16 +225,16 @@ void Map::Draw(aie::Renderer2D& a_render) const
 					float tileWidth = mp_tileSheet[tileSheetIndex].m_tileWidth;
 					float tileHeight = mp_tileSheet[tileSheetIndex].m_tileHeight;
 
-					float u = (xPos * tileWidth) / tileSheetWidth;
-					float v = (yPos * tileHeight) / tileSheetHeight;
-					float w = ((xPos + 1) * tileWidth) / tileSheetWidth;
-					float h = ((yPos + 1) * tileHeight) / tileSheetHeight;
+					float u = xPos * (tileWidth / tileSheetWidth);
+					float v = yPos * (tileHeight / tileSheetHeight);
+					float w = tileWidth / tileSheetWidth;
+					float h = tileHeight / tileSheetHeight;
 
 					a_render.setUVRect(u, v, w, h);
-					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + m_tileWidth, y * m_tileHeight + (m_tileHeight / 2.0f));
-					a_render.setUVRect(0, 0, 1, 1);
+					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + (m_tileWidth / 2.0f), (m_depth - y) * m_tileHeight - (m_tileHeight / 2.0f), m_tileWidth, m_tileHeight);
 				}
 			}
 		}
 	}
+	a_render.setUVRect(0, 0, 1, 1);
 }

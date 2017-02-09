@@ -29,10 +29,9 @@ public:
 	// Move on grid
 	void UpdateMovement(float _deltaTime);
 
-	virtual void Update(float a_deltatime) = 0;
+	virtual void Update(float a_deltatime);
 	virtual void OnCollision(Entity * a_entity) = 0;
 
-	void UpdateProgress(float _deltaTime);
 	void CalcMovement();
 	void CheckCollision(Entity * a_entity);
 	void TryCollision();
@@ -52,7 +51,8 @@ public:
 	float m_progress; // += deltaT*speed each update, to next tile jump
 	unsigned int m_color;
 	const static unsigned int m_defaultColor;
-	bool m_active;
+	bool m_activeGet;
+	bool m_activeSet;
 
 protected:
 	static unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
@@ -60,4 +60,5 @@ protected:
 	int GetTileColIDByDir(const int& _dir) const;
 	bool TryMoveInDir(const int& _dir);
 	int GetTurnedDir() const;
+
 };
