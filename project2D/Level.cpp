@@ -14,7 +14,7 @@
 
 Level::Level()
 {
-	m_map = new Map();
+	m_map = new Map("test.tmx");
 
 	TextureManager* tm = TextureManager::GetSingleton();
 	std::string name;
@@ -48,5 +48,5 @@ void Level::Update(float a_deltatime)
 
 void Level::Draw(aie::Renderer2D * _renderer)
 {
-
+	m_map->Draw(*_renderer);
 }

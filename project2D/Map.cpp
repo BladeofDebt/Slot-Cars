@@ -232,6 +232,7 @@ void Map::Draw(aie::Renderer2D& a_render) const
 
 					a_render.setUVRect(u, v, w, h);
 					a_render.drawSprite(mp_tileSheet[tileSheetIndex].mp_texture, x * m_tileWidth + m_tileWidth, y * m_tileHeight + (m_tileHeight / 2.0f));
+					a_render.setUVRect(0, 0, 1, 1);
 				}
 			}
 		}
