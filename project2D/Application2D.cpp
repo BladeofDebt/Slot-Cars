@@ -37,13 +37,13 @@ bool Application2D::startup() {
 
 void Application2D::shutdown() {
 	
+	delete m_level;
+	
 	delete m_audio;
 	delete m_font;
 	delete m_texture;
 	delete m_shipTexture;
 	delete m_2dRenderer;
-	
-	delete m_level;
 }
 
 void Application2D::update(float deltaTime) {

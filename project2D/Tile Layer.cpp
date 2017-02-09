@@ -8,11 +8,11 @@ TileLayer::~TileLayer()
 		{
 			if (mp_tile[i])
 			{
-				delete mp_tile[i];
+				delete[] mp_tile[i];
 			}
 		}
 
-		delete mp_tile;
+		delete[] mp_tile;
 	}
 }
 

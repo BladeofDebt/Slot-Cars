@@ -129,14 +129,14 @@ Map::Map(const char* a_fileName)
 
 Map::~Map()
 {
-	if (mp_tileLayer)
-	{
-		delete mp_tileLayer;
-	}
-
 	if (mp_tileSheet)
 	{
-		delete mp_tileSheet;
+		delete[] mp_tileSheet;
+	}
+	
+	if (mp_tileLayer)
+	{
+		delete[] mp_tileLayer;
 	}
 }
 
@@ -193,18 +193,18 @@ void Map::Draw(aie::Renderer2D& a_render) const
 
 				if (tileId != 0)
 				{
-					int tileSheetIndex = 0;
+					int tileSheetIndex = -1;
 
 					for (int j = 0; j < m_tileSheetNum; j++)
 					{
 						if (mp_tileSheet[j].m_startId > tileId)
 						{
-							tileId--;
+							--tileSheetIndex;
 
 							break;
 						}
 
-						tileId++;
+						++tileSheetIndex;
 					}
 
 					int trueIndex = tileId - mp_tileSheet[tileSheetIndex].m_startId;
