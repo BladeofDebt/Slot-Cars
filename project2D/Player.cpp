@@ -37,6 +37,7 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 	m_lowSpeed = 0.75f;
 	m_defaultSpeed = 1.5f;
 	m_highSpeed = 3.0f;
+	m_deathSpeed = 15.0f;
 	m_speedCooldown = 0;
 	m_speedCooldownMax = 1;
 	m_x = 3;
@@ -62,19 +63,13 @@ void Player::OnCollision(Entity * a_entity)
 	switch (a_entity->m_id)
 	{
 	case EntityID::Bullet:
-		m_activeSet = false;
+		//m_activeSet = false; //BOOOOOORING
+		m_speed = m_deathSpeed;
+		m_speedCooldown = 0.3f;
 		break;
 	default:
 		break;
 	}
-
-	//a_entity->m_active = false;
-	// TODO : Remove after testing.
-
-	//if (a_entity->m_id == EntityID::Bullet)
-		//std::cout << "Bullet Collision" << std::endl;
-	//else
-		//std::cout << "Player Collided" << std::endl;
 }
 
 

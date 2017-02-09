@@ -20,7 +20,7 @@ public:
 	void Fire();
 
 	InputSet m_inputSet;
-	float m_lowSpeed, m_defaultSpeed, m_highSpeed;
+	float m_lowSpeed, m_defaultSpeed, m_highSpeed, m_deathSpeed;
 	float m_speedCooldown;
 	float m_speedCooldownMax;
 protected:

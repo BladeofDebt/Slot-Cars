@@ -23,7 +23,7 @@ Bullet::Bullet(Level* _level, EntityTeam _team)
 		break;
 	}
 	m_texture = TextureManager::GetSingleton()->Get("bullet.png");
-	m_speed = 5;
+	m_speed = 8;
 	m_lifeTime = 0;
 	m_lifeTimeMax = 4;
 }
