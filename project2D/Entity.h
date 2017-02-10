@@ -31,6 +31,7 @@ public:
 
 	virtual void Update(float a_deltatime);
 	virtual void OnCollision(Entity * a_entity) = 0;
+	virtual void SetTurn(int _newTurn);
 
 	void CalcMovement();
 	void CheckCollision(Entity * a_entity);
@@ -53,6 +54,7 @@ public:
 	const static unsigned int m_defaultColor;
 	bool m_activeGet;
 	bool m_activeSet;
+	bool m_resetsOnTurnSuccess; // Resets Turn to 0 on successful turn
 
 protected:
 	static unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
