@@ -15,7 +15,7 @@
 
 Level::Level()
 {
-	m_map = new Map("Ze Mountains.tmx");
+	m_map = new Map("Level_1.tmx");
 
 	TextureManager* tm = TextureManager::GetSingleton();
 	tm->LoadTexture("./textures/car.png");
