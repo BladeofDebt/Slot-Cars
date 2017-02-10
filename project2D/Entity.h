@@ -31,6 +31,7 @@ public:
 
 	virtual void Update(float a_deltatime);
 	virtual void OnCollision(Entity * a_entity) = 0;
+	virtual void SetTurn(int _newTurn);
 
 	void CalcMovement();
 	void CheckCollision(Entity * a_entity);
@@ -48,17 +49,17 @@ public:
 	int m_dir;
 	int m_turn; // -1=left, 0=forwards, 1=right
 	float m_speed; //
-	float m_progress; // += deltaT*speed each update, to next tile jump
+	float m_progress; // tracks time until move to next tile jump
 	unsigned int m_color;
 	const static unsigned int m_defaultColor;
 	bool m_activeGet;
 	bool m_activeSet;
+	bool m_resetsOnTurnSuccess; // Resets Turn to 0 on successful turn. (To prevent tail-chasing on Player)
 
 protected:
 	static unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
 	int GetTileColID(int _x, int _y) const;
-	int GetTileColIDByDir(const int& _dir) const;
 	bool TryMoveInDir(const int& _dir);
 	int GetTurnedDir() const;
-
+	static const int EmptyTileID;
 };

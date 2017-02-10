@@ -14,9 +14,12 @@
 #include "Tile.h"
 
 const unsigned int Entity::m_defaultColor = (255 << 24) + (255 << 16) + (255 << 8) + 255;
+const int Entity::EmptyTileID = 0;
 
 Entity::Entity(Level* _level, EntityID _id, EntityTeam _team)
-	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0), m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0), m_activeGet(false), m_activeSet(false)
+	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0),
+	m_color(m_defaultColor), m_progress(0), m_speed(1), m_turn(0),
+	m_activeGet(false), m_activeSet(false), m_resetsOnTurnSuccess(false)
 {
 }
 
@@ -46,6 +49,11 @@ void Entity::Update(float a_deltatime)
 		UpdateMovement(a_deltatime);
 }
 
+void Entity::SetTurn(int _newTurn)
+{
+	m_turn = _newTurn;
+}
+
 void Entity::UpdateMovement(float _deltaTime)
 {
 	m_progress += _deltaTime * m_speed;
@@ -62,11 +70,13 @@ void Entity::UpdateMovement(float _deltaTime)
 
 void Entity::CalcMovement()
 {
-	if (TryMoveInDir(GetTurnedDir())) {}		// Move Turn Dir
-	else if (TryMoveInDir(DirWrap(m_dir))) {}			// Move Forewards
-	else if (TryMoveInDir(DirWrap(m_dir - 90))) {}	// Turn Move
+	if (TryMoveInDir(GetTurnedDir())) {
+		if (m_resetsOnTurnSuccess) SetTurn(0); 		// Move in Turn Dir
+	}
+	else if (TryMoveInDir(DirWrap(m_dir))) {}		// Move Forewards
 	else if (TryMoveInDir(DirWrap(m_dir + 90))) {}	// Turn Move
-	else	TryMoveInDir(DirWrap(m_dir + 180)); {} // Move Backwards
+	else if (TryMoveInDir(DirWrap(m_dir - 90))) {}	// Turn Move
+	else	TryMoveInDir(DirWrap(m_dir + 180)); {}	// Move Backwards
 }
 
 void Entity::CheckCollision(Entity* a_entity)
@@ -74,7 +84,7 @@ void Entity::CheckCollision(Entity* a_entity)
 	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
 	{
 		OnCollision(a_entity);
-		a_entity->OnCollision(this);
+		//a_entity->OnCollision(this);
 	}
 }
 
@@ -116,13 +126,13 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 		_outX = 1; _outY = 0;
 		break;
 	case 90:
-		_outX = 0; _outY = 1;
+		_outX = 0; _outY = -1;
 		break;
 	case 180:
 		_outX = -1; _outY = 0;
 		break;
 	case 270:
-		_outX = 0; _outY = -1;
+		_outX = 0; _outY = 1;
 		break;
 	default:
 		_outX = 0; _outY = 0;
@@ -142,8 +152,8 @@ int Entity::GetTileColID(int _x, int _y) const
 {
 	int width = m_level->m_map->GetWidth();
 	int height = m_level->m_map->GetDepth();
-	if (_x >= width) _x = width - 1;
-	if (_y >= height) _y = height - 1;
+	// if (_x >= width) _x = width - 1;
+	// if (_y >= height) _y = height - 1;
 	return m_level->m_map->GetTile(0, _x, _y).GetTileID();
 }
 

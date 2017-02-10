@@ -13,6 +13,8 @@
 #include "Level.h"
 #include "TextureManager.h"
 
+#include "Score Board.h"
+
 
 Application2D::Application2D() {
 
@@ -40,6 +42,8 @@ bool Application2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+	setBackgroundColour(0.2f, 0.2f, 0.2f, 1.0f);
+
 	return true;
 }
 
@@ -60,7 +64,7 @@ void Application2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-		
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -82,11 +86,13 @@ void Application2D::draw() {
 	m_level->Draw(m_2dRenderer);
 	//m_2dRenderer->drawSprite(TextureManager::GetSingleton()->Get("ship.png"), 200, 200, 100, 100);
 
-	char fpsString[16];
+	ScoreBoard::Draw(*m_font, *m_2dRenderer, (unsigned int)getWindowWidth(), (unsigned int)getWindowHeight());
+
+	/*char fpsString[16];
 
 	itoa(m_fps, fpsString, 10);
 
-	m_2dRenderer->drawText(m_font, fpsString, 0.0f, getWindowHeight() - 30.0f);
+	m_2dRenderer->drawText(m_font, fpsString, 0.0f, getWindowHeight() - 30.0f);*/
 
 	// done drawing sprites
 	m_2dRenderer->end();
