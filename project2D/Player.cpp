@@ -28,12 +28,14 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 		m_slowColor = CToIColor(255, 150, 0, 0);
 		m_normalColor = CToIColor(255, 200, 0, 0);
 		m_boostColor = CToIColor(255, 255, 0, 0);
+		m_x = 3; m_y = 3; m_dir = 0;
 		break;
 	case EntityTeam::Player2:
 		m_inputSet = PLAYER2_INPUTSET;
 		m_slowColor = CToIColor(255, 0, 0, 150);
 		m_normalColor = CToIColor(255, 0, 0, 200);
 		m_boostColor = CToIColor(255, 0, 0, 255);
+		m_x = 30; m_y = 3; m_dir = 180;
 		break;
 	default:
 		break;
@@ -50,10 +52,9 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 	m_normalSpeed = 2.0f;
 	m_highSpeed = 5.0f;
 	m_deathSpeed = 15.0f;
+	m_deathSpeedMax = 1.0f;
 	m_speedCooldown = 0;
 	m_speedCooldownMax = 0.5f;
-	m_x = 3;
-	m_y = 3;
 }
 
 Player::~Player()
@@ -75,15 +76,13 @@ void Player::OnCollision(Entity * a_entity)
 	switch (a_entity->m_id)
 	{
 	case EntityID::Bullet:
-		//m_activeSet = false; //BOOOOOORING
 		m_speed = m_deathSpeed;
-		m_speedCooldown = 0.3f;
+		m_speedCooldown = m_deathSpeedMax;
 		break;
 	default:
 		break;
 	}
 }
-
 
 void Player::HandleInput(float a_deltatime)
 {
@@ -112,7 +111,6 @@ void Player::HandleInput(float a_deltatime)
 			m_speed = m_normalSpeed;
 			m_color = m_normalColor;
 		}
-
 	}
 
 	//Turn Control

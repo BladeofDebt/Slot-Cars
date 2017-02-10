@@ -23,7 +23,8 @@ public:
 	void SetTurn(int _newTurn) override;
 
 	InputSet m_inputSet;
-	float m_lowSpeed, m_normalSpeed, m_highSpeed, m_deathSpeed;
+	float m_lowSpeed, m_normalSpeed, m_highSpeed;
+	float m_deathSpeed, m_deathSpeedMax;
 	float m_speedCooldown;
 	float m_speedCooldownMax;
 	unsigned int m_slowColor;

@@ -49,12 +49,12 @@ public:
 	int m_dir;
 	int m_turn; // -1=left, 0=forwards, 1=right
 	float m_speed; //
-	float m_progress; // += deltaT*speed each update, to next tile jump
+	float m_progress; // tracks time until move to next tile jump
 	unsigned int m_color;
 	const static unsigned int m_defaultColor;
 	bool m_activeGet;
 	bool m_activeSet;
-	bool m_resetsOnTurnSuccess; // Resets Turn to 0 on successful turn
+	bool m_resetsOnTurnSuccess; // Resets Turn to 0 on successful turn. (To prevent tail-chasing on Player)
 
 protected:
 	static unsigned int CToIColor(const char & a, const char& r, const char&  g, const char&  b);
