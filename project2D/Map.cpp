@@ -138,7 +138,7 @@ Map::~Map()
 	{
 		delete[] mp_tileSheet;
 	}
-	
+
 	if (mp_tileLayer)
 	{
 		delete[] mp_tileLayer;
@@ -202,14 +202,12 @@ void Map::Draw(aie::Renderer2D& a_render) const
 
 					for (int j = 0; j < m_tileSheetNum; j++)
 					{
+						++tileSheetIndex;
 						if (mp_tileSheet[j].m_startId > tileId)
 						{
 							--tileSheetIndex;
-
 							break;
 						}
-
-						++tileSheetIndex;
 					}
 
 					int trueIndex = tileId - mp_tileSheet[tileSheetIndex].m_startId;
