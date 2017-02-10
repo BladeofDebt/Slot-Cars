@@ -42,6 +42,8 @@ bool Application2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+	setBackgroundColour(0.2f, 0.2f, 0.2f, 1.0f);
+
 	return true;
 }
 
@@ -62,7 +64,7 @@ void Application2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-		
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
