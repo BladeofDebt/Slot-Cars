@@ -6,14 +6,12 @@
 #include <stdlib.h>
 
 #include "Player.h"
-#include <iostream>
 
 int ScoreBoard::m_player[2] = { 0, 0 };
 unsigned int ScoreBoard::m_colors[3] = { Entity::m_defaultColor, 0, 0 };
 
 void ScoreBoard::IncrementScore(int a_player)
 {
-	std::cout << a_player << "\n";
 	++m_player[a_player];
 }
 
