@@ -14,6 +14,7 @@
 #include "Tile.h"
 
 const unsigned int Entity::m_defaultColor = (255 << 24) + (255 << 16) + (255 << 8) + 255;
+const int Entity::EmptyTileID = 0;
 
 Entity::Entity(Level* _level, EntityID _id, EntityTeam _team)
 	: m_level(_level), m_id(_id), m_team(_team), m_x(), m_y(), m_dir(0),

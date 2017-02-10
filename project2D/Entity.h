@@ -61,5 +61,5 @@ protected:
 	int GetTileColID(int _x, int _y) const;
 	bool TryMoveInDir(const int& _dir);
 	int GetTurnedDir() const;
-
+	static const int EmptyTileID;
 };
