@@ -42,7 +42,7 @@ bool Application2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
-	setBackgroundColour(0.2f, 0.2f, 0.2f, 1.0f);
+	setBackgroundColour(0.5f, 0.5f, 0.5f, 1.0f);
 
 	return true;
 }

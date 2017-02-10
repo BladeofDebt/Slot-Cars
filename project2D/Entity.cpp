@@ -84,7 +84,7 @@ void Entity::CheckCollision(Entity* a_entity)
 	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
 	{
 		OnCollision(a_entity);
-		//a_entity->OnCollision(this);
+		// a_entity->OnCollision(this);
 	}
 }
 
@@ -142,10 +142,10 @@ void Entity::DirToXYOffset(int & _dir, int & _outX, int & _outY) const
 
 unsigned int Entity::CToIColor(const char & a, const char & r, const char & g, const char & b)
 {
-	return ((b & 0xFF) << 24) | //alpha
-		(((int)g & 0xFF) << 16) | //red
-		(((int)r & 0xFF) << 8) | //green
-		(((int)a & 0xFF) << 0); //blue
+	return ((r & 0xFF) << 24) +
+		(((int)g & 0xFF) << 16) + 
+		(((int)b & 0xFF) << 8) + 
+		(((int)a & 0xFF) << 0); 
 }
 
 int Entity::GetTileColID(int _x, int _y) const

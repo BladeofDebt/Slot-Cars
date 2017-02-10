@@ -15,7 +15,7 @@ enum class EntityTeam
 {
 	Invalid,
 	Player1,
-	Player2,
+	Player2 = 2,
 	Length
 };
 

@@ -23,6 +23,8 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 	if (glfwInit() == GL_FALSE)
 		return false;
 
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
 	m_window = glfwCreateWindow(width, height, title, (fullscreen ? glfwGetPrimaryMonitor() : nullptr), nullptr);
 	if (m_window == nullptr) {
 		glfwTerminate();

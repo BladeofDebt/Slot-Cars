@@ -16,7 +16,7 @@ int main() {
 	#endif
 
 	auto app = new Application2D();
-	app->run("AIE", 1280, 720, false);
+	app->run("AIE", 1392, 835, false);
 	delete app;
 
 	_CrtDumpMemoryLeaks();

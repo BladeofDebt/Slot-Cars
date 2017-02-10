@@ -8,7 +8,6 @@
 #include "Bullet.h"
 #include "TextureManager.h"
 
-#include "Score Board.h"
 
 Bullet::Bullet(Level* _level, EntityTeam _team)
 	: Entity(_level, EntityID::Bullet, _team)
@@ -56,7 +55,6 @@ void Bullet::OnCollision(Entity * a_entity)
 	{
 	case EntityID::Player:
 		m_activeSet = false;
-		ScoreBoard::IncrementScore((int)m_team - 1);
 		break;
 	case EntityID::Bullet:
 		m_activeSet = false;

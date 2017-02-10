@@ -49,4 +49,4 @@ protected:
 	unsigned char*	m_loadedPixels;
 };
 
-} // namespace aie
+}

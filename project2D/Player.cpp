@@ -10,6 +10,7 @@
 #include "Map.h"
 #include <Input.h>
 #include "TextureManager.h"
+#include "Score Board.h"
 
 const InputSet Player::PLAYER1_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_W,	aie::EInputCodes::INPUT_KEY_A,		aie::EInputCodes::INPUT_KEY_S,		aie::EInputCodes::INPUT_KEY_D,		aie::EInputCodes::INPUT_KEY_F,		aie::EInputCodes::INPUT_KEY_G };
 const InputSet Player::PLAYER2_INPUTSET = InputSet{ aie::EInputCodes::INPUT_KEY_UP,	aie::EInputCodes::INPUT_KEY_LEFT,	aie::EInputCodes::INPUT_KEY_DOWN,	aie::EInputCodes::INPUT_KEY_RIGHT,	aie::EInputCodes::INPUT_KEY_KP_0,	aie::EInputCodes::INPUT_KEY_KP_DECIMAL };
@@ -40,6 +41,7 @@ Player::Player(Level * _level, EntityTeam _team, Bullet* a_bullet)
 	default:
 		break;
 	}
+	ScoreBoard::SetColor((int)m_team, m_boostColor);
 	m_color = m_normalColor;
 
 	TextureManager* tm = TextureManager::GetSingleton();
@@ -78,6 +80,7 @@ void Player::OnCollision(Entity * a_entity)
 	case EntityID::Bullet:
 		m_speed = m_deathSpeed;
 		m_speedCooldown = m_deathSpeedMax;
+		ScoreBoard::IncrementScore((int)a_entity->m_team - 1);
 		break;
 	default:
 		break;
