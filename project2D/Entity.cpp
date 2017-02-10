@@ -84,7 +84,7 @@ void Entity::CheckCollision(Entity* a_entity)
 	if (a_entity->m_x == m_x && a_entity->m_y == m_y)
 	{
 		OnCollision(a_entity);
-		a_entity->OnCollision(this);
+		//a_entity->OnCollision(this);
 	}
 }
 
